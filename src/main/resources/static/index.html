@@ -3,722 +3,554 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>⚽ Sistema de Clubes de Fútbol</title>
-<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<title>⚽ Liga Manager — Clubes de Fútbol</title>
+<link href="https://fonts.googleapis.com/css2?family=Oswald:wght@300;400;500;600;700&family=Barlow:ital,wght@0,300;0,400;0,500;0,600;1,300&display=swap" rel="stylesheet">
 <style>
-  :root {
-    --verde: #00c853;
-    --verde-dark: #007a32;
-    --negro: #0a0a0a;
-    --gris: #141414;
-    --gris2: #1e1e1e;
-    --gris3: #2a2a2a;
-    --blanco: #f5f5f5;
-    --texto: #aaaaaa;
-    --acento: #00ff88;
-  }
-
-  * { margin: 0; padding: 0; box-sizing: border-box; }
-
-  body {
-    background: var(--negro);
-    color: var(--blanco);
-    font-family: 'DM Sans', sans-serif;
-    min-height: 100vh;
-  }
-
-  /* HEADER */
-  header {
-    background: var(--gris);
-    border-bottom: 2px solid var(--verde);
-    padding: 0 2rem;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    height: 64px;
-    position: sticky;
-    top: 0;
-    z-index: 100;
-  }
-
-  .logo {
-    font-family: 'Bebas Neue', sans-serif;
-    font-size: 1.8rem;
-    color: var(--acento);
-    letter-spacing: 2px;
-  }
-
-  .logo span { color: var(--blanco); }
-
-  /* NAV TABS */
-  nav {
-    display: flex;
-    gap: 0.5rem;
-  }
-
-  nav button {
-    background: transparent;
-    border: 1px solid var(--gris3);
-    color: var(--texto);
-    padding: 0.4rem 1rem;
-    border-radius: 4px;
-    cursor: pointer;
-    font-family: 'DM Sans', sans-serif;
-    font-size: 0.85rem;
-    transition: all 0.2s;
-  }
-
-  nav button:hover, nav button.active {
-    background: var(--verde);
-    border-color: var(--verde);
-    color: var(--negro);
-    font-weight: 600;
-  }
-
-  /* MAIN */
-  main {
-    max-width: 1200px;
-    margin: 0 auto;
-    padding: 2rem;
-  }
-
-  /* SECTION TITLE */
-  .section-title {
-    font-family: 'Bebas Neue', sans-serif;
-    font-size: 2.5rem;
-    letter-spacing: 3px;
-    margin-bottom: 0.25rem;
-    color: var(--acento);
-  }
-
-  .section-sub {
-    color: var(--texto);
-    font-size: 0.9rem;
-    margin-bottom: 2rem;
-  }
-
-  /* GRID */
-  .grid {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 2rem;
-  }
-
-  @media (max-width: 768px) { .grid { grid-template-columns: 1fr; } }
-
-  /* CARD */
-  .card {
-    background: var(--gris);
-    border: 1px solid var(--gris3);
-    border-radius: 8px;
-    padding: 1.5rem;
-  }
-
-  .card h3 {
-    font-family: 'Bebas Neue', sans-serif;
-    font-size: 1.2rem;
-    letter-spacing: 2px;
-    color: var(--verde);
-    margin-bottom: 1rem;
-    border-bottom: 1px solid var(--gris3);
-    padding-bottom: 0.5rem;
-  }
-
-  /* FORM */
-  .form-group {
-    margin-bottom: 0.75rem;
-  }
-
-  label {
-    display: block;
-    font-size: 0.78rem;
-    color: var(--texto);
-    margin-bottom: 0.3rem;
-    text-transform: uppercase;
-    letter-spacing: 1px;
-  }
-
-  input, select {
-    width: 100%;
-    background: var(--gris2);
-    border: 1px solid var(--gris3);
-    border-radius: 4px;
-    color: var(--blanco);
-    padding: 0.5rem 0.75rem;
-    font-family: 'DM Sans', sans-serif;
-    font-size: 0.9rem;
-    transition: border-color 0.2s;
-  }
-
-  input:focus, select:focus {
-    outline: none;
-    border-color: var(--verde);
-  }
-
-  select option { background: var(--gris2); }
-
-  /* BUTTONS */
-  .btn {
-    border: none;
-    border-radius: 4px;
-    padding: 0.6rem 1.5rem;
-    font-family: 'DM Sans', sans-serif;
-    font-weight: 600;
-    font-size: 0.9rem;
-    cursor: pointer;
-    transition: all 0.2s;
-    width: 100%;
-    margin-top: 0.5rem;
-  }
-
-  .btn-primary {
-    background: var(--verde);
-    color: var(--negro);
-  }
-
-  .btn-primary:hover { background: var(--acento); transform: translateY(-1px); }
-
-  .btn-danger {
-    background: transparent;
-    border: 1px solid #e53935;
-    color: #e53935;
-    padding: 0.3rem 0.8rem;
-    width: auto;
-    font-size: 0.78rem;
-    margin-top: 0;
-  }
-
-  .btn-danger:hover { background: #e53935; color: white; }
-
-  /* LIST */
-  .list { display: flex; flex-direction: column; gap: 0.5rem; }
-
-  .list-item {
-    background: var(--gris2);
-    border: 1px solid var(--gris3);
-    border-radius: 6px;
-    padding: 0.75rem 1rem;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    transition: border-color 0.2s;
-  }
-
-  .list-item:hover { border-color: var(--verde); }
-
-  .list-item-info { flex: 1; }
-
-  .list-item-name {
-    font-weight: 600;
-    font-size: 0.95rem;
-    color: var(--blanco);
-  }
-
-  .list-item-detail {
-    font-size: 0.78rem;
-    color: var(--texto);
-    margin-top: 0.15rem;
-  }
-
-  .badge {
-    background: var(--verde-dark);
-    color: var(--acento);
-    font-size: 0.7rem;
-    font-weight: 600;
-    padding: 0.2rem 0.5rem;
-    border-radius: 3px;
-    margin-right: 0.5rem;
-  }
-
-  /* TABS CONTENT */
-  .tab-content { display: none; }
-  .tab-content.active { display: block; }
-
-  /* ALERT */
-  .alert {
-    padding: 0.75rem 1rem;
-    border-radius: 4px;
-    margin-bottom: 1rem;
-    font-size: 0.85rem;
-    display: none;
-  }
-
-  .alert-success { background: #00382010; border: 1px solid var(--verde); color: var(--acento); }
-  .alert-error { background: #3800001a; border: 1px solid #e53935; color: #ef9a9a; }
-
-  /* EMPTY */
-  .empty {
-    text-align: center;
-    padding: 2rem;
-    color: var(--texto);
-    font-size: 0.9rem;
-  }
-
-  /* STATS BAR */
-  .stats {
-    display: grid;
-    grid-template-columns: repeat(5, 1fr);
-    gap: 1rem;
-    margin-bottom: 2rem;
-  }
-
-  @media (max-width: 768px) { .stats { grid-template-columns: repeat(2, 1fr); } }
-
-  .stat-card {
-    background: var(--gris);
-    border: 1px solid var(--gris3);
-    border-radius: 8px;
-    padding: 1rem;
-    text-align: center;
-    border-top: 3px solid var(--verde);
-  }
-
-  .stat-num {
-    font-family: 'Bebas Neue', sans-serif;
-    font-size: 2rem;
-    color: var(--acento);
-  }
-
-  .stat-label {
-    font-size: 0.72rem;
-    color: var(--texto);
-    text-transform: uppercase;
-    letter-spacing: 1px;
-  }
-
-  /* MULTI SELECT */
-  .multi-select {
-    background: var(--gris2);
-    border: 1px solid var(--gris3);
-    border-radius: 4px;
-    max-height: 100px;
-    overflow-y: auto;
-    padding: 0.25rem;
-  }
-
-  .multi-select label {
-    display: flex;
-    align-items: center;
-    gap: 0.5rem;
-    padding: 0.25rem 0.5rem;
-    border-radius: 3px;
-    cursor: pointer;
-    text-transform: none;
-    letter-spacing: 0;
-    font-size: 0.85rem;
-    color: var(--blanco);
-  }
-
-  .multi-select label:hover { background: var(--gris3); }
-
-  .multi-select input[type="checkbox"] { width: auto; }
-
-  /* SPINNER */
-  .spinner {
-    display: inline-block;
-    width: 14px;
-    height: 14px;
-    border: 2px solid transparent;
-    border-top-color: var(--negro);
-    border-radius: 50%;
-    animation: spin 0.6s linear infinite;
-    vertical-align: middle;
-    margin-right: 6px;
-  }
-
-  @keyframes spin { to { transform: rotate(360deg); } }
+:root {
+  --gold: #f5c842;
+  --gold-dark: #c9a227;
+  --gold-glow: rgba(245,200,66,0.18);
+  --pitch: #1a5c2a;
+  --pitch-light: #236b32;
+  --bg: #0c0e13;
+  --surface: #13161d;
+  --surface2: #1c2028;
+  --surface3: #242832;
+  --border: rgba(255,255,255,0.07);
+  --border-gold: rgba(245,200,66,0.3);
+  --text: #e8e8e8;
+  --muted: #7a8090;
+  --danger: #e03f3f;
+  --success: #3fb97a;
+}
+* { margin: 0; padding: 0; box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+body {
+  background: var(--bg);
+  color: var(--text);
+  font-family: 'Barlow', sans-serif;
+  min-height: 100vh;
+  overflow-x: hidden;
+}
+body::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  background-image:
+    repeating-linear-gradient(90deg, transparent 0px, transparent 59px, rgba(255,255,255,0.015) 59px, rgba(255,255,255,0.015) 60px),
+    repeating-linear-gradient(180deg, transparent 0px, transparent 59px, rgba(255,255,255,0.015) 59px, rgba(255,255,255,0.015) 60px);
+  pointer-events: none;
+  z-index: 0;
+}
+/* HEADER */
+header {
+  position: sticky; top: 0; z-index: 200;
+  background: rgba(12,14,19,0.92);
+  backdrop-filter: blur(20px);
+  border-bottom: 1px solid var(--border);
+  padding: 0 2rem; height: 68px;
+  display: flex; align-items: center; justify-content: space-between;
+}
+header::after {
+  content: ''; position: absolute; bottom: 0; left: 0; right: 0; height: 2px;
+  background: linear-gradient(90deg, transparent, var(--gold), transparent);
+}
+.logo {
+  font-family: 'Oswald', sans-serif; font-weight: 700; font-size: 1.5rem;
+  letter-spacing: 3px; color: var(--gold); display: flex; align-items: center; gap: 0.6rem; text-transform: uppercase;
+}
+.logo-icon {
+  width: 36px; height: 36px; background: var(--gold); border-radius: 50%;
+  display: flex; align-items: center; justify-content: center; font-size: 1.1rem; flex-shrink: 0;
+}
+.logo-sub {
+  font-family: 'Barlow', sans-serif; font-weight: 300; font-size: 0.65rem;
+  color: var(--muted); letter-spacing: 4px; display: block; text-transform: uppercase;
+}
+nav { display: flex; gap: 0.25rem; }
+nav button {
+  background: transparent; border: none; color: var(--muted);
+  padding: 0.5rem 1rem; font-family: 'Oswald', sans-serif; font-weight: 400;
+  font-size: 0.8rem; letter-spacing: 2px; text-transform: uppercase;
+  cursor: pointer; border-radius: 4px; transition: all 0.2s; position: relative;
+}
+nav button::after {
+  content: ''; position: absolute; bottom: 0; left: 50%; right: 50%;
+  height: 2px; background: var(--gold); transition: all 0.25s;
+}
+nav button:hover { color: var(--text); }
+nav button.active { color: var(--gold); }
+nav button.active::after, nav button:hover::after { left: 10%; right: 10%; }
+@media (max-width: 768px) {
+  header { flex-direction: column; height: auto; padding: 1rem; gap: 0.75rem; }
+  nav { flex-wrap: wrap; justify-content: center; gap: 0.1rem; }
+  nav button { font-size: 0.7rem; padding: 0.4rem 0.7rem; }
+}
+/* MAIN */
+main { max-width: 1280px; margin: 0 auto; padding: 2.5rem 2rem; position: relative; z-index: 1; }
+.tab-content { display: none; animation: fadeUp 0.35s ease; }
+.tab-content.active { display: block; }
+@keyframes fadeUp { from { opacity: 0; transform: translateY(12px); } to { opacity: 1; transform: translateY(0); } }
+/* PAGE HEADER */
+.page-header { margin-bottom: 2.5rem; }
+.page-title { font-family: 'Oswald', sans-serif; font-size: 3rem; font-weight: 700; letter-spacing: 4px; text-transform: uppercase; color: var(--text); line-height: 1; }
+.page-title span { color: var(--gold); }
+.page-line { width: 60px; height: 3px; background: var(--gold); margin-top: 0.5rem; }
+/* STATS */
+.stats-grid { display: grid; grid-template-columns: repeat(5, 1fr); gap: 1rem; margin-bottom: 2.5rem; }
+@media (max-width: 900px) { .stats-grid { grid-template-columns: repeat(3, 1fr); } }
+@media (max-width: 600px) { .stats-grid { grid-template-columns: repeat(2, 1fr); } }
+.stat-card {
+  background: var(--surface); border: 1px solid var(--border); border-radius: 12px;
+  padding: 1.25rem 1rem; text-align: center; position: relative; overflow: hidden; transition: transform 0.2s, border-color 0.2s;
+}
+.stat-card:hover { transform: translateY(-3px); border-color: var(--border-gold); }
+.stat-card::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 3px; background: linear-gradient(90deg, var(--gold-dark), var(--gold)); }
+.stat-num { font-family: 'Oswald', sans-serif; font-size: 2.8rem; font-weight: 700; color: var(--gold); line-height: 1; margin-bottom: 0.3rem; }
+.stat-icon { font-size: 1.2rem; margin-bottom: 0.2rem; }
+.stat-label { font-size: 0.7rem; color: var(--muted); text-transform: uppercase; letter-spacing: 2px; font-family: 'Oswald', sans-serif; }
+/* PANEL GRID */
+.panel-grid { display: grid; grid-template-columns: 380px 1fr; gap: 1.5rem; align-items: start; }
+@media (max-width: 1000px) { .panel-grid { grid-template-columns: 1fr; } }
+/* CARD */
+.card { background: var(--surface); border: 1px solid var(--border); border-radius: 16px; overflow: hidden; }
+.card-header {
+  padding: 1.1rem 1.5rem; background: var(--surface2); border-bottom: 1px solid var(--border);
+  display: flex; align-items: center; gap: 0.6rem;
+  font-family: 'Oswald', sans-serif; font-size: 0.85rem; letter-spacing: 2px; text-transform: uppercase; color: var(--muted);
+}
+.card-header .icon {
+  width: 28px; height: 28px; border-radius: 6px;
+  background: var(--gold-glow); border: 1px solid var(--border-gold);
+  display: flex; align-items: center; justify-content: center; font-size: 0.9rem;
+}
+.card-body { padding: 1.5rem; }
+/* FORM */
+.form-group { margin-bottom: 1rem; }
+.form-label { display: block; font-size: 0.68rem; font-family: 'Oswald', sans-serif; letter-spacing: 2px; text-transform: uppercase; color: var(--muted); margin-bottom: 0.4rem; }
+.form-input {
+  width: 100%; background: var(--surface3); border: 1px solid var(--border); border-radius: 8px;
+  color: var(--text); padding: 0.65rem 0.9rem; font-family: 'Barlow', sans-serif; font-size: 0.9rem; transition: all 0.2s; -webkit-appearance: none;
+}
+.form-input:focus { outline: none; border-color: var(--gold); box-shadow: 0 0 0 3px var(--gold-glow); background: var(--surface2); }
+.form-input option { background: var(--surface2); }
+.multi-select-wrap {
+  background: var(--surface3); border: 1px solid var(--border); border-radius: 8px;
+  max-height: 110px; overflow-y: auto; padding: 0.3rem; scrollbar-width: thin; scrollbar-color: var(--border) transparent;
+}
+.multi-select-wrap label {
+  display: flex; align-items: center; gap: 0.6rem; padding: 0.3rem 0.6rem; border-radius: 5px; cursor: pointer;
+  font-size: 0.85rem; color: var(--text); transition: background 0.15s; letter-spacing: 0; text-transform: none; font-family: 'Barlow', sans-serif;
+}
+.multi-select-wrap label:hover { background: var(--surface2); }
+.multi-select-wrap input[type="checkbox"] { width: auto; accent-color: var(--gold); }
+/* BUTTONS */
+.btn { border: none; border-radius: 8px; padding: 0.75rem 1.5rem; font-family: 'Oswald', sans-serif; font-weight: 500; font-size: 0.85rem; letter-spacing: 2px; text-transform: uppercase; cursor: pointer; transition: all 0.2s; display: inline-flex; align-items: center; justify-content: center; gap: 0.5rem; }
+.btn-full { width: 100%; margin-top: 0.5rem; }
+.btn-primary { background: linear-gradient(135deg, var(--gold-dark), var(--gold)); color: #0c0e13; font-weight: 600; }
+.btn-primary:hover { transform: translateY(-2px); box-shadow: 0 6px 24px rgba(245,200,66,0.35); }
+.btn-sm { padding: 0.3rem 0.75rem; font-size: 0.72rem; letter-spacing: 1px; border-radius: 5px; }
+.btn-ghost { background: transparent; border: 1px solid var(--danger); color: var(--danger); }
+.btn-ghost:hover { background: var(--danger); color: white; }
+/* ALERT */
+.alert { padding: 0.75rem 1rem; border-radius: 8px; margin-bottom: 1rem; font-size: 0.85rem; display: none; font-weight: 500; }
+.alert-success { background: rgba(63,185,122,0.1); border: 1px solid rgba(63,185,122,0.4); color: var(--success); }
+.alert-error { background: rgba(224,63,63,0.1); border: 1px solid rgba(224,63,63,0.4); color: var(--danger); }
+/* CLUB CARDS */
+.clubs-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 1.25rem; }
+.club-card { background: var(--surface); border: 1px solid var(--border); border-radius: 16px; overflow: hidden; transition: transform 0.2s, border-color 0.2s, box-shadow 0.2s; }
+.club-card:hover { transform: translateY(-4px); border-color: var(--border-gold); box-shadow: 0 12px 40px rgba(0,0,0,0.4); }
+.club-card-top { background: linear-gradient(135deg, var(--pitch), var(--pitch-light)); padding: 1.25rem 1.5rem 1rem; position: relative; overflow: hidden; }
+.club-card-top::before {
+  content: ''; position: absolute; inset: 0;
+  background-image: repeating-linear-gradient(90deg, transparent 0, transparent 29px, rgba(255,255,255,0.06) 29px, rgba(255,255,255,0.06) 30px), repeating-linear-gradient(180deg, transparent 0, transparent 29px, rgba(255,255,255,0.06) 29px, rgba(255,255,255,0.06) 30px);
+}
+.club-badge { width: 52px; height: 52px; background: linear-gradient(135deg, var(--gold-dark), var(--gold)); border-radius: 12px; display: flex; align-items: center; justify-content: center; font-size: 1.5rem; margin-bottom: 0.75rem; position: relative; z-index: 1; box-shadow: 0 4px 16px rgba(0,0,0,0.3); }
+.club-name { font-family: 'Oswald', sans-serif; font-size: 1.3rem; font-weight: 600; letter-spacing: 1px; color: white; position: relative; z-index: 1; }
+.club-city { font-size: 0.8rem; color: rgba(255,255,255,0.65); margin-top: 0.15rem; position: relative; z-index: 1; }
+.club-year { position: absolute; top: 1rem; right: 1rem; font-family: 'Oswald', sans-serif; font-size: 0.7rem; color: rgba(255,255,255,0.4); letter-spacing: 2px; z-index: 1; }
+.club-card-body { padding: 1rem 1.25rem; }
+.club-meta { display: flex; flex-direction: column; gap: 0.5rem; margin-bottom: 0.75rem; }
+.club-meta-row { display: flex; align-items: center; gap: 0.5rem; font-size: 0.82rem; color: var(--muted); }
+.club-meta-row strong { color: var(--text); }
+.club-meta-icon { width: 20px; height: 20px; background: var(--surface3); border-radius: 4px; display: flex; align-items: center; justify-content: center; font-size: 0.7rem; flex-shrink: 0; }
+.club-players-section { margin-top: 0.75rem; padding-top: 0.75rem; border-top: 1px solid var(--border); }
+.club-players-title { font-family: 'Oswald', sans-serif; font-size: 0.7rem; letter-spacing: 2px; text-transform: uppercase; color: var(--muted); margin-bottom: 0.6rem; display: flex; align-items: center; gap: 0.4rem; }
+.player-pill { display: inline-flex; align-items: center; gap: 0.35rem; background: var(--surface3); border: 1px solid var(--border); border-radius: 20px; padding: 0.25rem 0.6rem; font-size: 0.75rem; margin: 0.2rem 0.2rem 0 0; color: var(--text); transition: border-color 0.15s; }
+.player-pill:hover { border-color: var(--border-gold); }
+.player-num { background: var(--gold); color: #0c0e13; font-family: 'Oswald', sans-serif; font-weight: 600; font-size: 0.65rem; width: 18px; height: 18px; border-radius: 50%; display: inline-flex; align-items: center; justify-content: center; flex-shrink: 0; }
+.competitions-section { margin-top: 0.75rem; padding-top: 0.75rem; border-top: 1px solid var(--border); }
+.comp-chip { display: inline-block; background: rgba(245,200,66,0.1); border: 1px solid var(--border-gold); border-radius: 4px; padding: 0.2rem 0.5rem; font-size: 0.72rem; color: var(--gold); margin: 0.15rem 0.15rem 0 0; font-family: 'Oswald', sans-serif; letter-spacing: 0.5px; }
+.club-card-footer { padding: 0.75rem 1.25rem; background: var(--surface2); border-top: 1px solid var(--border); display: flex; justify-content: flex-end; }
+/* ITEM LIST */
+.item-list { display: flex; flex-direction: column; gap: 0.5rem; }
+.item-row { background: var(--surface2); border: 1px solid var(--border); border-radius: 10px; padding: 0.85rem 1rem; display: flex; align-items: center; gap: 1rem; transition: border-color 0.2s; }
+.item-row:hover { border-color: var(--border-gold); }
+.item-avatar { width: 42px; height: 42px; background: linear-gradient(135deg, var(--surface3), var(--surface)); border: 1px solid var(--border-gold); border-radius: 10px; display: flex; align-items: center; justify-content: center; font-size: 1.1rem; flex-shrink: 0; }
+.item-body { flex: 1; min-width: 0; }
+.item-name { font-family: 'Oswald', sans-serif; font-size: 1rem; font-weight: 500; color: var(--text); letter-spacing: 0.5px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.item-detail { font-size: 0.78rem; color: var(--muted); margin-top: 0.15rem; }
+.pos-badge { display: inline-block; background: var(--surface3); border: 1px solid var(--border); border-radius: 4px; padding: 0.1rem 0.45rem; font-size: 0.68rem; color: var(--gold); font-family: 'Oswald', sans-serif; letter-spacing: 1px; text-transform: uppercase; }
+/* EMPTY */
+.empty-state { text-align: center; padding: 3rem 2rem; color: var(--muted); }
+.empty-icon { font-size: 2.5rem; margin-bottom: 0.75rem; opacity: 0.4; }
+.empty-text { font-size: 0.9rem; font-style: italic; }
+/* SPINNER */
+.spinner { display: inline-block; width: 14px; height: 14px; border: 2px solid transparent; border-top-color: currentColor; border-radius: 50%; animation: spin 0.6s linear infinite; vertical-align: middle; }
+@keyframes spin { to { transform: rotate(360deg); } }
+::-webkit-scrollbar { width: 6px; }
+::-webkit-scrollbar-track { background: var(--bg); }
+::-webkit-scrollbar-thumb { background: var(--surface3); border-radius: 3px; }
 </style>
 </head>
 <body>
 
 <header>
-  <div class="logo">⚽ <span>Clubes</span>Fútbol</div>
+  <div class="logo">
+    <div class="logo-icon">&#9917;</div>
+    <div>Liga<strong>Manager</strong><span class="logo-sub">Sistema de Clubes &middot; Spring + MongoDB</span></div>
+  </div>
   <nav>
-    <button class="active" onclick="showTab('dashboard')">Dashboard</button>
-    <button onclick="showTab('clubes')">Clubes</button>
-    <button onclick="showTab('jugadores')">Jugadores</button>
-    <button onclick="showTab('entrenadores')">Entrenadores</button>
-    <button onclick="showTab('asociaciones')">Asociaciones</button>
-    <button onclick="showTab('competiciones')">Competiciones</button>
+    <button class="active" onclick="showTab('dashboard',this)">Dashboard</button>
+    <button onclick="showTab('clubes',this)">Clubes</button>
+    <button onclick="showTab('jugadores',this)">Jugadores</button>
+    <button onclick="showTab('entrenadores',this)">Entrenadores</button>
+    <button onclick="showTab('asociaciones',this)">Asociaciones</button>
+    <button onclick="showTab('competiciones',this)">Competiciones</button>
   </nav>
 </header>
 
 <main>
 
-  <!-- DASHBOARD -->
-  <div id="tab-dashboard" class="tab-content active">
-    <div class="section-title">DASHBOARD</div>
-    <div class="section-sub">Resumen general del sistema</div>
-    <div class="stats">
-      <div class="stat-card">
-        <div class="stat-num" id="stat-clubes">0</div>
-        <div class="stat-label">Clubes</div>
-      </div>
-      <div class="stat-card">
-        <div class="stat-num" id="stat-jugadores">0</div>
-        <div class="stat-label">Jugadores</div>
-      </div>
-      <div class="stat-card">
-        <div class="stat-num" id="stat-entrenadores">0</div>
-        <div class="stat-label">Entrenadores</div>
-      </div>
-      <div class="stat-card">
-        <div class="stat-num" id="stat-asociaciones">0</div>
-        <div class="stat-label">Asociaciones</div>
-      </div>
-      <div class="stat-card">
-        <div class="stat-num" id="stat-competiciones">0</div>
-        <div class="stat-label">Competiciones</div>
-      </div>
-    </div>
+<!-- DASHBOARD -->
+<div id="tab-dashboard" class="tab-content active">
+  <div class="page-header"><div class="page-title">Liga <span>Dashboard</span></div><div class="page-line"></div></div>
+  <div class="stats-grid">
+    <div class="stat-card"><div class="stat-icon">&#127967;</div><div class="stat-num" id="stat-clubes">&#8212;</div><div class="stat-label">Clubes</div></div>
+    <div class="stat-card"><div class="stat-icon">&#128100;</div><div class="stat-num" id="stat-jugadores">&#8212;</div><div class="stat-label">Jugadores</div></div>
+    <div class="stat-card"><div class="stat-icon">&#129346;</div><div class="stat-num" id="stat-entrenadores">&#8212;</div><div class="stat-label">Entrenadores</div></div>
+    <div class="stat-card"><div class="stat-icon">&#127963;</div><div class="stat-num" id="stat-asociaciones">&#8212;</div><div class="stat-label">Asociaciones</div></div>
+    <div class="stat-card"><div class="stat-icon">&#127942;</div><div class="stat-num" id="stat-competiciones">&#8212;</div><div class="stat-label">Competiciones</div></div>
+  </div>
+  <div class="card">
+    <div class="card-header"><div class="icon">&#9917;</div>Clubes Registrados</div>
+    <div class="card-body"><div id="dash-clubs" class="clubs-grid"><div class="empty-state"><div class="empty-icon">&#9203;</div><div class="empty-text">Cargando...</div></div></div></div>
+  </div>
+</div>
 
+<!-- CLUBES -->
+<div id="tab-clubes" class="tab-content">
+  <div class="page-header"><div class="page-title">Gesti&#243;n de <span>Clubes</span></div><div class="page-line"></div></div>
+  <div class="panel-grid">
     <div class="card">
-      <h3>⚽ Clubes Registrados</h3>
-      <div id="dash-clubes-list" class="list"><div class="empty">Cargando...</div></div>
-    </div>
-  </div>
-
-  <!-- CLUBES -->
-  <div id="tab-clubes" class="tab-content">
-    <div class="section-title">CLUBES</div>
-    <div class="section-sub">Gestión de clubes de fútbol</div>
-    <div class="grid">
-      <div class="card">
-        <h3>➕ Nuevo Club</h3>
+      <div class="card-header"><div class="icon">&#43;</div>Nuevo Club</div>
+      <div class="card-body">
         <div id="alert-club" class="alert"></div>
-        <div class="form-group"><label>Nombre del Club</label><input id="club-nombre" placeholder="Ej: Millonarios FC"></div>
-        <div class="form-group"><label>Ciudad</label><input id="club-ciudad" placeholder="Ej: Bogotá"></div>
-        <div class="form-group"><label>Año de Fundación</label><input id="club-anio" type="number" placeholder="Ej: 1946"></div>
-        <div class="form-group"><label>Entrenador</label><select id="club-entrenador"><option value="">-- Seleccionar --</option></select></div>
-        <div class="form-group"><label>Asociación</label><select id="club-asociacion"><option value="">-- Seleccionar --</option></select></div>
-        <div class="form-group"><label>Jugadores</label><div id="club-jugadores-check" class="multi-select"><div class="empty" style="padding:0.5rem">Cargando...</div></div></div>
-        <div class="form-group"><label>Competiciones</label><div id="club-competiciones-check" class="multi-select"><div class="empty" style="padding:0.5rem">Cargando...</div></div></div>
-        <button class="btn btn-primary" onclick="crearClub()">Crear Club</button>
-      </div>
-      <div class="card">
-        <h3>📋 Lista de Clubes</h3>
-        <div id="clubes-list" class="list"><div class="empty">Cargando...</div></div>
+        <div class="form-group"><label class="form-label">Nombre del Club</label><input class="form-input" id="club-nombre" placeholder="Ej: Millonarios FC"></div>
+        <div class="form-group"><label class="form-label">Ciudad</label><input class="form-input" id="club-ciudad" placeholder="Ej: Bogot&#225;"></div>
+        <div class="form-group"><label class="form-label">A&#241;o de Fundaci&#243;n</label><input class="form-input" id="club-anio" type="number" placeholder="Ej: 1946"></div>
+        <div class="form-group"><label class="form-label">Entrenador</label><select class="form-input" id="club-entrenador"><option value="">&#8212; Sin entrenador &#8212;</option></select></div>
+        <div class="form-group"><label class="form-label">Asociaci&#243;n</label><select class="form-input" id="club-asociacion"><option value="">&#8212; Sin asociaci&#243;n &#8212;</option></select></div>
+        <div class="form-group"><label class="form-label">Jugadores</label><div id="club-jugadores-check" class="multi-select-wrap"><div style="padding:0.5rem;color:var(--muted);font-size:0.82rem">Cargando...</div></div></div>
+        <div class="form-group"><label class="form-label">Competiciones</label><div id="club-competiciones-check" class="multi-select-wrap"><div style="padding:0.5rem;color:var(--muted);font-size:0.82rem">Cargando...</div></div></div>
+        <button class="btn btn-primary btn-full" onclick="crearClub()">Crear Club</button>
       </div>
     </div>
+    <div class="card">
+      <div class="card-header"><div class="icon">&#128203;</div>Lista de Clubes</div>
+      <div class="card-body"><div id="clubes-list" class="clubs-grid"><div class="empty-state"><div class="empty-icon">&#9203;</div></div></div></div>
+    </div>
   </div>
+</div>
 
-  <!-- JUGADORES -->
-  <div id="tab-jugadores" class="tab-content">
-    <div class="section-title">JUGADORES</div>
-    <div class="section-sub">Gestión del plantel</div>
-    <div class="grid">
-      <div class="card">
-        <h3>➕ Nuevo Jugador</h3>
+<!-- JUGADORES -->
+<div id="tab-jugadores" class="tab-content">
+  <div class="page-header"><div class="page-title">Plantel de <span>Jugadores</span></div><div class="page-line"></div></div>
+  <div class="panel-grid">
+    <div class="card">
+      <div class="card-header"><div class="icon">&#43;</div>Nuevo Jugador</div>
+      <div class="card-body">
         <div id="alert-jugador" class="alert"></div>
-        <div class="form-group"><label>Nombre</label><input id="jug-nombre" placeholder="Ej: James"></div>
-        <div class="form-group"><label>Apellido</label><input id="jug-apellido" placeholder="Ej: Rodriguez"></div>
-        <div class="form-group"><label>Número</label><input id="jug-numero" type="number" placeholder="Ej: 10"></div>
-        <div class="form-group"><label>Posición</label>
-          <select id="jug-posicion">
+        <div class="form-group"><label class="form-label">Nombre</label><input class="form-input" id="jug-nombre" placeholder="Ej: James"></div>
+        <div class="form-group"><label class="form-label">Apellido</label><input class="form-input" id="jug-apellido" placeholder="Ej: Rodriguez"></div>
+        <div class="form-group"><label class="form-label">N&#250;mero de Camiseta</label><input class="form-input" id="jug-numero" type="number" placeholder="Ej: 10"></div>
+        <div class="form-group"><label class="form-label">Posici&#243;n</label>
+          <select class="form-input" id="jug-posicion">
             <option>Portero</option><option>Defensa Central</option><option>Lateral Derecho</option>
             <option>Lateral Izquierdo</option><option>Mediocampista</option><option>Volante</option>
             <option>Extremo Derecho</option><option>Extremo Izquierdo</option><option>Delantero</option>
           </select>
         </div>
-        <button class="btn btn-primary" onclick="crearJugador()">Crear Jugador</button>
-      </div>
-      <div class="card">
-        <h3>📋 Lista de Jugadores</h3>
-        <div id="jugadores-list" class="list"><div class="empty">Cargando...</div></div>
+        <button class="btn btn-primary btn-full" onclick="crearJugador()">Registrar Jugador</button>
       </div>
     </div>
+    <div class="card">
+      <div class="card-header"><div class="icon">&#128101;</div>Jugadores Registrados</div>
+      <div class="card-body"><div id="jugadores-list" class="item-list"><div class="empty-state"><div class="empty-icon">&#9203;</div></div></div></div>
+    </div>
   </div>
+</div>
 
-  <!-- ENTRENADORES -->
-  <div id="tab-entrenadores" class="tab-content">
-    <div class="section-title">ENTRENADORES</div>
-    <div class="section-sub">Cuerpo técnico</div>
-    <div class="grid">
-      <div class="card">
-        <h3>➕ Nuevo Entrenador</h3>
+<!-- ENTRENADORES -->
+<div id="tab-entrenadores" class="tab-content">
+  <div class="page-header"><div class="page-title">Cuerpo <span>T&#233;cnico</span></div><div class="page-line"></div></div>
+  <div class="panel-grid">
+    <div class="card">
+      <div class="card-header"><div class="icon">&#43;</div>Nuevo Entrenador</div>
+      <div class="card-body">
         <div id="alert-entrenador" class="alert"></div>
-        <div class="form-group"><label>Nombre</label><input id="ent-nombre" placeholder="Ej: Hernán"></div>
-        <div class="form-group"><label>Apellido</label><input id="ent-apellido" placeholder="Ej: Darío Gómez"></div>
-        <div class="form-group"><label>Edad</label><input id="ent-edad" type="number" placeholder="Ej: 60"></div>
-        <div class="form-group"><label>Nacionalidad</label><input id="ent-nacionalidad" placeholder="Ej: Colombiana"></div>
-        <button class="btn btn-primary" onclick="crearEntrenador()">Crear Entrenador</button>
-      </div>
-      <div class="card">
-        <h3>📋 Lista de Entrenadores</h3>
-        <div id="entrenadores-list" class="list"><div class="empty">Cargando...</div></div>
+        <div class="form-group"><label class="form-label">Nombre</label><input class="form-input" id="ent-nombre" placeholder="Ej: Hern&#225;n"></div>
+        <div class="form-group"><label class="form-label">Apellido</label><input class="form-input" id="ent-apellido" placeholder="Ej: Dar&#237;o G&#243;mez"></div>
+        <div class="form-group"><label class="form-label">Edad</label><input class="form-input" id="ent-edad" type="number" placeholder="Ej: 60"></div>
+        <div class="form-group"><label class="form-label">Nacionalidad</label><input class="form-input" id="ent-nacionalidad" placeholder="Ej: Colombiana"></div>
+        <button class="btn btn-primary btn-full" onclick="crearEntrenador()">Registrar Entrenador</button>
       </div>
     </div>
+    <div class="card">
+      <div class="card-header"><div class="icon">&#129346;</div>Entrenadores Registrados</div>
+      <div class="card-body"><div id="entrenadores-list" class="item-list"><div class="empty-state"><div class="empty-icon">&#9203;</div></div></div></div>
+    </div>
   </div>
+</div>
 
-  <!-- ASOCIACIONES -->
-  <div id="tab-asociaciones" class="tab-content">
-    <div class="section-title">ASOCIACIONES</div>
-    <div class="section-sub">Federaciones y asociaciones</div>
-    <div class="grid">
-      <div class="card">
-        <h3>➕ Nueva Asociación</h3>
+<!-- ASOCIACIONES -->
+<div id="tab-asociaciones" class="tab-content">
+  <div class="page-header"><div class="page-title">Federaciones y <span>Asociaciones</span></div><div class="page-line"></div></div>
+  <div class="panel-grid">
+    <div class="card">
+      <div class="card-header"><div class="icon">&#43;</div>Nueva Asociaci&#243;n</div>
+      <div class="card-body">
         <div id="alert-asociacion" class="alert"></div>
-        <div class="form-group"><label>Nombre</label><input id="aso-nombre" placeholder="Ej: FCF"></div>
-        <div class="form-group"><label>País</label><input id="aso-pais" placeholder="Ej: Colombia"></div>
-        <div class="form-group"><label>Presidente</label><input id="aso-presidente" placeholder="Ej: Ramon Jesurun"></div>
-        <button class="btn btn-primary" onclick="crearAsociacion()">Crear Asociación</button>
-      </div>
-      <div class="card">
-        <h3>📋 Lista de Asociaciones</h3>
-        <div id="asociaciones-list" class="list"><div class="empty">Cargando...</div></div>
+        <div class="form-group"><label class="form-label">Nombre</label><input class="form-input" id="aso-nombre" placeholder="Ej: FCF"></div>
+        <div class="form-group"><label class="form-label">Pa&#237;s</label><input class="form-input" id="aso-pais" placeholder="Ej: Colombia"></div>
+        <div class="form-group"><label class="form-label">Presidente</label><input class="form-input" id="aso-presidente" placeholder="Ej: Ramon Jesurun"></div>
+        <button class="btn btn-primary btn-full" onclick="crearAsociacion()">Registrar Asociaci&#243;n</button>
       </div>
     </div>
+    <div class="card">
+      <div class="card-header"><div class="icon">&#127963;</div>Asociaciones Registradas</div>
+      <div class="card-body"><div id="asociaciones-list" class="item-list"><div class="empty-state"><div class="empty-icon">&#9203;</div></div></div></div>
+    </div>
   </div>
+</div>
 
-  <!-- COMPETICIONES -->
-  <div id="tab-competiciones" class="tab-content">
-    <div class="section-title">COMPETICIONES</div>
-    <div class="section-sub">Torneos y ligas</div>
-    <div class="grid">
-      <div class="card">
-        <h3>➕ Nueva Competición</h3>
+<!-- COMPETICIONES -->
+<div id="tab-competiciones" class="tab-content">
+  <div class="page-header"><div class="page-title">Torneos y <span>Competiciones</span></div><div class="page-line"></div></div>
+  <div class="panel-grid">
+    <div class="card">
+      <div class="card-header"><div class="icon">&#43;</div>Nueva Competici&#243;n</div>
+      <div class="card-body">
         <div id="alert-competicion" class="alert"></div>
-        <div class="form-group"><label>Nombre</label><input id="comp-nombre" placeholder="Ej: Liga BetPlay"></div>
-        <div class="form-group"><label>Monto Premio ($)</label><input id="comp-monto" type="number" placeholder="Ej: 5000000"></div>
-        <div class="form-group"><label>Fecha Inicio</label><input id="comp-inicio" type="date"></div>
-        <div class="form-group"><label>Fecha Fin</label><input id="comp-fin" type="date"></div>
-        <button class="btn btn-primary" onclick="crearCompeticion()">Crear Competición</button>
-      </div>
-      <div class="card">
-        <h3>📋 Lista de Competiciones</h3>
-        <div id="competiciones-list" class="list"><div class="empty">Cargando...</div></div>
+        <div class="form-group"><label class="form-label">Nombre</label><input class="form-input" id="comp-nombre" placeholder="Ej: Liga BetPlay"></div>
+        <div class="form-group"><label class="form-label">Monto Premio ($)</label><input class="form-input" id="comp-monto" type="number" placeholder="Ej: 5000000"></div>
+        <div class="form-group"><label class="form-label">Fecha Inicio</label><input class="form-input" id="comp-inicio" type="date"></div>
+        <div class="form-group"><label class="form-label">Fecha Fin</label><input class="form-input" id="comp-fin" type="date"></div>
+        <button class="btn btn-primary btn-full" onclick="crearCompeticion()">Registrar Competici&#243;n</button>
       </div>
     </div>
+    <div class="card">
+      <div class="card-header"><div class="icon">&#127942;</div>Competiciones Registradas</div>
+      <div class="card-body"><div id="competiciones-list" class="item-list"><div class="empty-state"><div class="empty-icon">&#9203;</div></div></div></div>
+    </div>
   </div>
+</div>
 
 </main>
 
 <script>
-  const API = '';  // mismo servidor, rutas relativas
+const API = '';
 
-  // ── TABS ──────────────────────────────────────────────────────────────────
-  function showTab(name) {
-    document.querySelectorAll('.tab-content').forEach(t => t.classList.remove('active'));
-    document.querySelectorAll('nav button').forEach(b => b.classList.remove('active'));
-    document.getElementById('tab-' + name).classList.add('active');
-    event.target.classList.add('active');
-    if (name === 'dashboard') loadDashboard();
-    if (name === 'clubes') { loadClubSelects(); loadList('clubes'); }
-    if (name === 'jugadores') loadList('jugadores');
-    if (name === 'entrenadores') loadList('entrenadores');
-    if (name === 'asociaciones') loadList('asociaciones');
-    if (name === 'competiciones') loadList('competiciones');
-  }
+function showTab(name, btn) {
+  document.querySelectorAll('.tab-content').forEach(t => t.classList.remove('active'));
+  document.querySelectorAll('nav button').forEach(b => b.classList.remove('active'));
+  document.getElementById('tab-' + name).classList.add('active');
+  if (btn) btn.classList.add('active');
+  if (name === 'dashboard') loadDashboard();
+  if (name === 'clubes') { loadClubSelects(); loadClubes('clubes-list'); }
+  if (name === 'jugadores') loadSimpleList('jugadores');
+  if (name === 'entrenadores') loadSimpleList('entrenadores');
+  if (name === 'asociaciones') loadSimpleList('asociaciones');
+  if (name === 'competiciones') loadSimpleList('competiciones');
+}
 
-  // ── FETCH ─────────────────────────────────────────────────────────────────
-  async function api(path, method = 'GET', body = null) {
-    const opts = { method, headers: { 'Content-Type': 'application/json' } };
-    if (body) opts.body = JSON.stringify(body);
-    const res = await fetch(API + path, opts);
-    if (!res.ok) throw new Error(await res.text());
-    return res.json();
-  }
+async function api(path, method = 'GET', body = null) {
+  const opts = { method, headers: { 'Content-Type': 'application/json' } };
+  if (body) opts.body = JSON.stringify(body);
+  const res = await fetch(API + path, opts);
+  if (!res.ok) throw new Error(await res.text());
+  return res.json();
+}
 
-  async function del(path) {
-    const res = await fetch(API + path, { method: 'DELETE' });
-    return res.ok;
-  }
+async function del(path) {
+  const res = await fetch(API + path, { method: 'DELETE' });
+  return res.ok;
+}
 
-  // ── ALERT ─────────────────────────────────────────────────────────────────
-  function showAlert(id, msg, type = 'success') {
-    const el = document.getElementById(id);
-    el.textContent = msg;
-    el.className = `alert alert-${type}`;
-    el.style.display = 'block';
-    setTimeout(() => el.style.display = 'none', 3000);
-  }
+function showAlert(id, msg, type = 'success') {
+  const el = document.getElementById(id);
+  el.textContent = msg;
+  el.className = 'alert alert-' + type;
+  el.style.display = 'block';
+  setTimeout(() => el.style.display = 'none', 3000);
+}
 
-  // ── DASHBOARD ─────────────────────────────────────────────────────────────
-  async function loadDashboard() {
-    const entities = ['clubes','jugadores','entrenadores','asociaciones','competiciones'];
-    for (const e of entities) {
-      try {
-        const data = await api('/api/' + e);
-        document.getElementById('stat-' + e).textContent = data.length;
-        if (e === 'clubes') renderDashClubs(data);
-      } catch {}
-    }
-  }
-
-  function renderDashClubs(clubs) {
-    const el = document.getElementById('dash-clubes-list');
-    if (!clubs.length) { el.innerHTML = '<div class="empty">No hay clubes registrados aún</div>'; return; }
-    el.innerHTML = clubs.map(c => `
-      <div class="list-item">
-        <div class="list-item-info">
-          <div class="list-item-name">⚽ ${c.nombre}</div>
-          <div class="list-item-detail">📍 ${c.ciudad || '—'} &nbsp;|&nbsp; 🗓 ${c.anioFundacion || '—'}
-            ${c.entrenador ? `&nbsp;|&nbsp; 🧢 ${c.entrenador.nombre} ${c.entrenador.apellido}` : ''}
-            ${c.asociacion ? `&nbsp;|&nbsp; 🏛 ${c.asociacion.nombre}` : ''}
-          </div>
-        </div>
-      </div>`).join('');
-  }
-
-  // ── LOAD LIST ─────────────────────────────────────────────────────────────
-  async function loadList(entity) {
-    const el = document.getElementById(entity + '-list');
-    el.innerHTML = '<div class="empty">Cargando...</div>';
+async function loadDashboard() {
+  const entities = ['clubes','jugadores','entrenadores','asociaciones','competiciones'];
+  for (const e of entities) {
     try {
-      const data = await api('/api/' + entity);
-      if (!data.length) { el.innerHTML = '<div class="empty">Sin registros aún</div>'; return; }
-      el.innerHTML = data.map(item => renderItem(entity, item)).join('');
-    } catch { el.innerHTML = '<div class="empty">Error cargando datos</div>'; }
+      const data = await api('/api/' + e);
+      document.getElementById('stat-' + e).textContent = data.length;
+      if (e === 'clubes') renderClubCards(data, 'dash-clubs', false);
+    } catch { document.getElementById('stat-' + e).textContent = '?'; }
   }
+}
 
-  function renderItem(entity, item) {
-    let name = '', detail = '';
-    if (entity === 'clubes') {
-      name = `⚽ ${item.nombre}`;
-      detail = `📍 ${item.ciudad || '—'} · 🗓 ${item.anioFundacion || '—'}
-        ${item.jugadores ? `· 👥 ${item.jugadores.length} jugadores` : ''}
-        ${item.competiciones ? `· 🏆 ${item.competiciones.length} competiciones` : ''}`;
-    } else if (entity === 'jugadores') {
-      name = `${item.nombre} ${item.apellido}`;
-      detail = `#${item.numero} · ${item.posicion}`;
-    } else if (entity === 'entrenadores') {
-      name = `🧢 ${item.nombre} ${item.apellido}`;
-      detail = `${item.edad} años · ${item.nacionalidad}`;
-    } else if (entity === 'asociaciones') {
-      name = `🏛 ${item.nombre}`;
-      detail = `${item.pais} · Pdte: ${item.presidente}`;
-    } else if (entity === 'competiciones') {
-      name = `🏆 ${item.nombre}`;
-      detail = `Premio: $${(item.montoPremio||0).toLocaleString()} · ${item.fechaInicio || ''} → ${item.fechaFin || ''}`;
-    }
-    return `
-      <div class="list-item">
-        <div class="list-item-info">
-          <div class="list-item-name">${name}</div>
-          <div class="list-item-detail">${detail}</div>
-        </div>
-        <button class="btn btn-danger" onclick="eliminar('${entity}','${item.id}')">Eliminar</button>
-      </div>`;
+function renderClubCards(clubs, containerId, deletable) {
+  const el = document.getElementById(containerId);
+  if (!clubs.length) {
+    el.innerHTML = '<div class="empty-state"><div class="empty-icon">&#127967;</div><div class="empty-text">No hay clubes registrados aun</div></div>';
+    return;
   }
+  el.innerHTML = clubs.map(c => buildClubCard(c, deletable)).join('');
+}
 
-  async function eliminar(entity, id) {
-    if (!confirm('¿Eliminar este registro?')) return;
-    await del('/api/' + entity + '/' + id);
-    loadList(entity);
-    if (entity === 'clubes') loadClubSelects();
+function buildClubCard(c, deletable) {
+  const jugadores = c.jugadores && c.jugadores.length > 0
+    ? c.jugadores.map(j => '<span class="player-pill"><span class="player-num">' + (j.numero || '?') + '</span>' + j.nombre + ' ' + (j.apellido || '') + (j.posicion ? '<span style="color:var(--muted);font-size:0.68rem;margin-left:2px">&middot; ' + j.posicion + '</span>' : '') + '</span>').join('')
+    : '<span style="color:var(--muted);font-size:0.8rem;font-style:italic">Sin jugadores asignados</span>';
+
+  const competiciones = c.competiciones && c.competiciones.length > 0
+    ? c.competiciones.map(comp => '<span class="comp-chip">&#127942; ' + comp.nombre + '</span>').join('')
+    : '';
+
+  const deleteBtn = deletable
+    ? '<div class="club-card-footer"><button class="btn btn-ghost btn-sm" onclick="eliminarClub(\'' + c.id + '\')">Eliminar</button></div>'
+    : '';
+
+  return '<div class="club-card"><div class="club-card-top"><div class="club-year">' + (c.anioFundacion || '') + '</div><div class="club-badge">&#9917;</div><div class="club-name">' + c.nombre + '</div><div class="club-city">&#128205; ' + (c.ciudad || '&mdash;') + '</div></div><div class="club-card-body"><div class="club-meta">'
+    + (c.entrenador ? '<div class="club-meta-row"><div class="club-meta-icon">&#129346;</div><span>DT: <strong>' + c.entrenador.nombre + ' ' + c.entrenador.apellido + '</strong></span></div>' : '')
+    + (c.asociacion ? '<div class="club-meta-row"><div class="club-meta-icon">&#127963;</div><span>Fed: <strong>' + c.asociacion.nombre + '</strong></span></div>' : '')
+    + '</div><div class="club-players-section"><div class="club-players-title">&#128101; Plantel (' + (c.jugadores ? c.jugadores.length : 0) + ' jugadores)</div><div>' + jugadores + '</div></div>'
+    + (competiciones ? '<div class="competitions-section"><div class="club-players-title">&#127942; Competiciones</div>' + competiciones + '</div>' : '')
+    + '</div>' + deleteBtn + '</div>';
+}
+
+async function loadClubes(containerId) {
+  const el = document.getElementById(containerId);
+  el.innerHTML = '<div class="empty-state"><div class="empty-icon">&#9203;</div></div>';
+  try {
+    const data = await api('/api/clubes');
+    renderClubCards(data, containerId, true);
+  } catch { el.innerHTML = '<div class="empty-state"><div class="empty-icon">&#9888;</div><div class="empty-text">Error cargando clubes</div></div>'; }
+}
+
+async function eliminarClub(id) {
+  if (!confirm('Eliminar este club?')) return;
+  await del('/api/clubes/' + id);
+  loadClubes('clubes-list');
+  loadClubSelects();
+}
+
+async function loadSimpleList(entity) {
+  const el = document.getElementById(entity + '-list');
+  el.innerHTML = '<div class="empty-state"><div class="empty-icon">&#9203;</div></div>';
+  try {
+    const data = await api('/api/' + entity);
+    if (!data.length) { el.innerHTML = '<div class="empty-state"><div class="empty-icon">&#128235;</div><div class="empty-text">Sin registros aun</div></div>'; return; }
+    el.innerHTML = data.map(item => buildItemRow(entity, item)).join('');
+  } catch { el.innerHTML = '<div class="empty-state"><div class="empty-icon">&#9888;</div><div class="empty-text">Error cargando datos</div></div>'; }
+}
+
+function buildItemRow(entity, item) {
+  let icon = '', name = '', detail = '';
+  if (entity === 'jugadores') {
+    icon = '&#128100;'; name = item.nombre + ' ' + item.apellido;
+    detail = '<span class="pos-badge">' + item.posicion + '</span> &nbsp;Camiseta #' + item.numero;
+  } else if (entity === 'entrenadores') {
+    icon = '&#129346;'; name = item.nombre + ' ' + item.apellido;
+    detail = item.edad + ' a&ntilde;os &middot; ' + item.nacionalidad;
+  } else if (entity === 'asociaciones') {
+    icon = '&#127963;'; name = item.nombre;
+    detail = item.pais + ' &middot; Presidente: ' + item.presidente;
+  } else if (entity === 'competiciones') {
+    icon = '&#127942;'; name = item.nombre;
+    detail = 'Premio: $' + (item.montoPremio || 0).toLocaleString('es-CO') + ' &middot; ' + (item.fechaInicio || '') + ' &rarr; ' + (item.fechaFin || '');
   }
+  return '<div class="item-row"><div class="item-avatar">' + icon + '</div><div class="item-body"><div class="item-name">' + name + '</div><div class="item-detail">' + detail + '</div></div><button class="btn btn-ghost btn-sm" onclick="eliminarItem(\'' + entity + '\',\'' + item.id + '\')">Eliminar</button></div>';
+}
 
-  // ── CLUB SELECTS ──────────────────────────────────────────────────────────
-  async function loadClubSelects() {
-    try {
-      const [entrenadores, asociaciones, jugadores, competiciones] = await Promise.all([
-        api('/api/entrenadores'), api('/api/asociaciones'),
-        api('/api/jugadores'), api('/api/competiciones')
-      ]);
+async function eliminarItem(entity, id) {
+  if (!confirm('Eliminar este registro?')) return;
+  await del('/api/' + entity + '/' + id);
+  loadSimpleList(entity);
+}
 
-      const selEnt = document.getElementById('club-entrenador');
-      selEnt.innerHTML = '<option value="">-- Seleccionar --</option>' +
-        entrenadores.map(e => `<option value="${e.id}">${e.nombre} ${e.apellido}</option>`).join('');
+async function loadClubSelects() {
+  try {
+    const [entrenadores, asociaciones, jugadores, competiciones] = await Promise.all([
+      api('/api/entrenadores'), api('/api/asociaciones'), api('/api/jugadores'), api('/api/competiciones')
+    ]);
+    document.getElementById('club-entrenador').innerHTML = '<option value="">&mdash; Sin entrenador &mdash;</option>' + entrenadores.map(e => '<option value="' + e.id + '">' + e.nombre + ' ' + e.apellido + '</option>').join('');
+    document.getElementById('club-asociacion').innerHTML = '<option value="">&mdash; Sin asociaci&oacute;n &mdash;</option>' + asociaciones.map(a => '<option value="' + a.id + '">' + a.nombre + '</option>').join('');
+    document.getElementById('club-jugadores-check').innerHTML = jugadores.length
+      ? jugadores.map(j => '<label><input type="checkbox" value="' + j.id + '"> #' + j.numero + ' ' + j.nombre + ' ' + j.apellido + ' &middot; ' + j.posicion + '</label>').join('')
+      : '<div style="padding:0.5rem;color:var(--muted);font-size:0.82rem">Sin jugadores disponibles</div>';
+    document.getElementById('club-competiciones-check').innerHTML = competiciones.length
+      ? competiciones.map(c => '<label><input type="checkbox" value="' + c.id + '"> ' + c.nombre + '</label>').join('')
+      : '<div style="padding:0.5rem;color:var(--muted);font-size:0.82rem">Sin competiciones disponibles</div>';
+  } catch(e) { console.error(e); }
+}
 
-      const selAso = document.getElementById('club-asociacion');
-      selAso.innerHTML = '<option value="">-- Seleccionar --</option>' +
-        asociaciones.map(a => `<option value="${a.id}">${a.nombre}</option>`).join('');
+async function crearClub() {
+  const jugadoresIds = [...document.querySelectorAll('#club-jugadores-check input:checked')].map(c => c.value);
+  const competicionesIds = [...document.querySelectorAll('#club-competiciones-check input:checked')].map(c => c.value);
+  const body = {
+    nombre: document.getElementById('club-nombre').value.trim(),
+    ciudad: document.getElementById('club-ciudad').value.trim(),
+    anioFundacion: parseInt(document.getElementById('club-anio').value),
+    entrenadorId: document.getElementById('club-entrenador').value || null,
+    asociacionId: document.getElementById('club-asociacion').value || null,
+    jugadoresIds, competicionesIds
+  };
+  if (!body.nombre) { showAlert('alert-club','El nombre del club es obligatorio','error'); return; }
+  try {
+    await api('/api/clubes','POST',body);
+    showAlert('alert-club','Club creado correctamente');
+    ['club-nombre','club-ciudad','club-anio'].forEach(id => document.getElementById(id).value = '');
+    loadClubes('clubes-list'); loadDashboard();
+  } catch { showAlert('alert-club','Error al crear el club','error'); }
+}
 
-      document.getElementById('club-jugadores-check').innerHTML =
-        jugadores.length ? jugadores.map(j => `
-          <label><input type="checkbox" value="${j.id}"> ${j.nombre} ${j.apellido} (#${j.numero})</label>
-        `).join('') : '<div class="empty" style="padding:0.5rem">Sin jugadores</div>';
+async function crearJugador() {
+  const body = { nombre: document.getElementById('jug-nombre').value.trim(), apellido: document.getElementById('jug-apellido').value.trim(), numero: parseInt(document.getElementById('jug-numero').value), posicion: document.getElementById('jug-posicion').value };
+  if (!body.nombre) { showAlert('alert-jugador','El nombre es obligatorio','error'); return; }
+  try { await api('/api/jugadores','POST',body); showAlert('alert-jugador','Jugador registrado'); loadSimpleList('jugadores'); loadDashboard(); }
+  catch { showAlert('alert-jugador','Error al crear jugador','error'); }
+}
 
-      document.getElementById('club-competiciones-check').innerHTML =
-        competiciones.length ? competiciones.map(c => `
-          <label><input type="checkbox" value="${c.id}"> ${c.nombre}</label>
-        `).join('') : '<div class="empty" style="padding:0.5rem">Sin competiciones</div>';
+async function crearEntrenador() {
+  const body = { nombre: document.getElementById('ent-nombre').value.trim(), apellido: document.getElementById('ent-apellido').value.trim(), edad: parseInt(document.getElementById('ent-edad').value), nacionalidad: document.getElementById('ent-nacionalidad').value.trim() };
+  if (!body.nombre) { showAlert('alert-entrenador','El nombre es obligatorio','error'); return; }
+  try { await api('/api/entrenadores','POST',body); showAlert('alert-entrenador','Entrenador registrado'); loadSimpleList('entrenadores'); loadDashboard(); }
+  catch { showAlert('alert-entrenador','Error al crear entrenador','error'); }
+}
 
-    } catch(e) { console.error(e); }
-  }
+async function crearAsociacion() {
+  const body = { nombre: document.getElementById('aso-nombre').value.trim(), pais: document.getElementById('aso-pais').value.trim(), presidente: document.getElementById('aso-presidente').value.trim() };
+  if (!body.nombre) { showAlert('alert-asociacion','El nombre es obligatorio','error'); return; }
+  try { await api('/api/asociaciones','POST',body); showAlert('alert-asociacion','Asociacion registrada'); loadSimpleList('asociaciones'); loadDashboard(); }
+  catch { showAlert('alert-asociacion','Error al crear asociacion','error'); }
+}
 
-  // ── CREAR ENTIDADES ───────────────────────────────────────────────────────
-  async function crearClub() {
-    const jugadoresIds = [...document.querySelectorAll('#club-jugadores-check input:checked')].map(c => c.value);
-    const competicionesIds = [...document.querySelectorAll('#club-competiciones-check input:checked')].map(c => c.value);
-    const body = {
-      nombre: document.getElementById('club-nombre').value,
-      ciudad: document.getElementById('club-ciudad').value,
-      anioFundacion: parseInt(document.getElementById('club-anio').value),
-      entrenadorId: document.getElementById('club-entrenador').value || null,
-      asociacionId: document.getElementById('club-asociacion').value || null,
-      jugadoresIds, competicionesIds
-    };
-    if (!body.nombre) { showAlert('alert-club','El nombre es obligatorio','error'); return; }
-    try {
-      await api('/api/clubes', 'POST', body);
-      showAlert('alert-club', '✅ Club creado correctamente');
-      loadList('clubes');
-      loadDashboard();
-    } catch { showAlert('alert-club','❌ Error al crear el club','error'); }
-  }
+async function crearCompeticion() {
+  const body = { nombre: document.getElementById('comp-nombre').value.trim(), montoPremio: parseInt(document.getElementById('comp-monto').value), fechaInicio: document.getElementById('comp-inicio').value, fechaFin: document.getElementById('comp-fin').value };
+  if (!body.nombre) { showAlert('alert-competicion','El nombre es obligatorio','error'); return; }
+  try { await api('/api/competiciones','POST',body); showAlert('alert-competicion','Competicion registrada'); loadSimpleList('competiciones'); loadDashboard(); }
+  catch { showAlert('alert-competicion','Error al crear competicion','error'); }
+}
 
-  async function crearJugador() {
-    const body = {
-      nombre: document.getElementById('jug-nombre').value,
-      apellido: document.getElementById('jug-apellido').value,
-      numero: parseInt(document.getElementById('jug-numero').value),
-      posicion: document.getElementById('jug-posicion').value
-    };
-    if (!body.nombre) { showAlert('alert-jugador','El nombre es obligatorio','error'); return; }
-    try {
-      await api('/api/jugadores', 'POST', body);
-      showAlert('alert-jugador','✅ Jugador creado correctamente');
-      loadList('jugadores');
-    } catch { showAlert('alert-jugador','❌ Error al crear jugador','error'); }
-  }
-
-  async function crearEntrenador() {
-    const body = {
-      nombre: document.getElementById('ent-nombre').value,
-      apellido: document.getElementById('ent-apellido').value,
-      edad: parseInt(document.getElementById('ent-edad').value),
-      nacionalidad: document.getElementById('ent-nacionalidad').value
-    };
-    if (!body.nombre) { showAlert('alert-entrenador','El nombre es obligatorio','error'); return; }
-    try {
-      await api('/api/entrenadores', 'POST', body);
-      showAlert('alert-entrenador','✅ Entrenador creado correctamente');
-      loadList('entrenadores');
-    } catch { showAlert('alert-entrenador','❌ Error al crear entrenador','error'); }
-  }
-
-  async function crearAsociacion() {
-    const body = {
-      nombre: document.getElementById('aso-nombre').value,
-      pais: document.getElementById('aso-pais').value,
-      presidente: document.getElementById('aso-presidente').value
-    };
-    if (!body.nombre) { showAlert('alert-asociacion','El nombre es obligatorio','error'); return; }
-    try {
-      await api('/api/asociaciones', 'POST', body);
-      showAlert('alert-asociacion','✅ Asociación creada correctamente');
-      loadList('asociaciones');
-    } catch { showAlert('alert-asociacion','❌ Error al crear asociación','error'); }
-  }
-
-  async function crearCompeticion() {
-    const body = {
-      nombre: document.getElementById('comp-nombre').value,
-      montoPremio: parseInt(document.getElementById('comp-monto').value),
-      fechaInicio: document.getElementById('comp-inicio').value,
-      fechaFin: document.getElementById('comp-fin').value
-    };
-    if (!body.nombre) { showAlert('alert-competicion','El nombre es obligatorio','error'); return; }
-    try {
-      await api('/api/competiciones', 'POST', body);
-      showAlert('alert-competicion','✅ Competición creada correctamente');
-      loadList('competiciones');
-    } catch { showAlert('alert-competicion','❌ Error al crear competición','error'); }
-  }
-
-  // ── INIT ──────────────────────────────────────────────────────────────────
-  loadDashboard();
+loadDashboard();
 </script>
 </body>
 </html>
